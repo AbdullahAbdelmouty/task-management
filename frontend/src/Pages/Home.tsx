@@ -1,5 +1,7 @@
+import { Board } from "../Components/UI/Board";
+
 const Home = () => {
-    return <div>Home Page</div>;
+    return <Board />;
 }
 
 export default Home;
