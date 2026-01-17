@@ -1,12 +1,24 @@
 import { Droppable } from '@hello-pangea/dnd';
-import { ColumnWrapper, ColumnHeader } from '../Styles/Kanban.styles';
+import { ColumnWrapper } from '../Styles/Kanban.styles';
 import { TaskCard } from './TaskCard';
-import type { Task, TaskStatus } from '../../types/task';
+import type { Task, TaskStatus, TaskPriority } from '../../types/task';
 import { PlusCircleIcon } from '@phosphor-icons/react';
-import { Modal, Form, Input, Select, Button, Flex, Typography } from 'antd';
+import {
+    Modal,
+    Form,
+    Input,
+    Select,
+    Button,
+    Flex,
+    Typography,
+    DatePicker,
+} from 'antd';
 import { useState } from 'react';
+import dayjs from 'dayjs';
 
 const { Text } = Typography;
+const { TextArea } = Input;
+
 interface Props {
     title: string;
     status: TaskStatus;
@@ -14,7 +26,6 @@ interface Props {
     loading?: boolean;
     onAddTask: (task: Omit<Task, 'id'>) => void;
 }
-
 
 export const Column: React.FC<Props> = ({
     title,
@@ -30,8 +41,12 @@ export const Column: React.FC<Props> = ({
 
         onAddTask({
             title: values.title,
-            priority: values.priority,
+            description: values.description,
+            priority: values.priority as TaskPriority,
             status,
+            dueDate: values.dueDate
+                ? dayjs(values.dueDate).toISOString()
+                : undefined,
         });
 
         form.resetFields();
@@ -45,16 +60,13 @@ export const Column: React.FC<Props> = ({
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                 >
-
-                    <Flex>
-                        <Text>
-                            {title}
-                        </Text>
-                        <Text>
-                            {tasks.length}
-                        </Text>
+                    {/* Header */}
+                    <Flex justify="space-between" align="center">
+                        <Text strong>{title}</Text>
+                        <Text type="secondary">{tasks.length}</Text>
                     </Flex>
 
+                    {/* Add Button */}
                     <Button
                         icon={<PlusCircleIcon />}
                         style={{ width: '100%', marginBottom: 12 }}
@@ -63,33 +75,54 @@ export const Column: React.FC<Props> = ({
                         Add Task
                     </Button>
 
+                    {/* Tasks */}
                     {tasks.map((task, index) => (
                         <TaskCard key={task.id} task={task} index={index} />
                     ))}
 
                     {provided.placeholder}
 
-                    {/* Add Task Modal */}
                     <Modal
                         title={`Add Task to ${title}`}
                         open={open}
                         onOk={handleSubmit}
                         onCancel={() => setOpen(false)}
                         okText="Create"
+                        destroyOnClose
                     >
-                        <Form form={form} layout="vertical">
+                        <Form
+                            form={form}
+                            layout="vertical"
+                            initialValues={{
+                                priority: 'MEDIUM',
+                            }}
+                        >
+                            {/* Title */}
                             <Form.Item
                                 name="title"
                                 label="Title"
-                                rules={[{ required: true, message: 'Title is required' }]}
+                                rules={[
+                                    { required: true, message: 'Title is required' },
+                                ]}
                             >
                                 <Input placeholder="Task title" />
                             </Form.Item>
 
+                            {/* Description */}
+                            <Form.Item
+                                name="description"
+                                label="Description"
+                            >
+                                <TextArea
+                                    rows={3}
+                                    placeholder="Optional description"
+                                />
+                            </Form.Item>
+
+                            {/* Priority */}
                             <Form.Item
                                 name="priority"
                                 label="Priority"
-                                initialValue="MEDIUM"
                             >
                                 <Select
                                     options={[
@@ -97,6 +130,17 @@ export const Column: React.FC<Props> = ({
                                         { value: 'MEDIUM', label: 'Medium' },
                                         { value: 'HIGH', label: 'High' },
                                     ]}
+                                />
+                            </Form.Item>
+
+                            {/* Due Date */}
+                            <Form.Item
+                                name="dueDate"
+                                label="Due Date"
+                            >
+                                <DatePicker
+                                    style={{ width: '100%' }}
+                                    showTime
                                 />
                             </Form.Item>
                         </Form>

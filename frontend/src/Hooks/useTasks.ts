@@ -9,7 +9,6 @@ export const useTasks = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState(false);
 
-    // 🔹 Load all tasks
     const fetchTasks = useCallback(async () => {
         setLoading(true);
         try {
@@ -27,7 +26,6 @@ export const useTasks = () => {
         fetchTasks();
     }, [fetchTasks]);
 
-    // 🔹 Create a new task
     const createTask = useCallback(
         async (task: Omit<Task, 'id'>) => {
             try {
@@ -43,7 +41,23 @@ export const useTasks = () => {
         [],
     );
 
-    // 🔹 Update task status
+    const updateTask = useCallback(
+        async (taskId: string, updates: Partial<Omit<Task, 'id'>>) => {
+            try {
+                const res = await api.patch<Task>(`${API_URL}/tasks/${taskId}`, updates);
+                setTasks((prev) =>
+                    prev.map((t) => (t.id === taskId ? res.data : t)),
+                );
+                return res.data;
+            } catch (err) {
+                console.error(err);
+                message.error('Failed to update task');
+                throw err;
+            }
+        },
+        []
+    )
+
     const updateTaskStatus = useCallback(
         async (taskId: string, status: Task['status']) => {
             // Optimistic UI update
@@ -63,12 +77,23 @@ export const useTasks = () => {
         [fetchTasks],
     );
 
+    const removeTask = useCallback(async (taskId: string) => {
+        try {
+            await api.delete(`${API_URL}/tasks/${taskId}`);
+            setTasks((prev) => prev.filter((t) => t.id !== taskId));
+        } catch (err) {
+            console.error(err);
+        }
+    }, [])
+
     return {
         tasks,
         loading,
         fetchTasks,
         createTask,
         updateTaskStatus,
+        updateTask,
+        removeTask,
         setTasks, // expose if needed for drag & drop
     };
 };
