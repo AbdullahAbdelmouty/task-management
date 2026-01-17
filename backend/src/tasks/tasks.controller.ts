@@ -7,12 +7,12 @@ import {
     Param,
     Delete,
     UseGuards,
+    Request,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { GetUser } from '../auth/decorators/get-user.decorator';
 import { TaskStatus } from './task.entity';
 
 @UseGuards(JwtAuthGuard)
@@ -21,41 +21,36 @@ export class TasksController {
     constructor(private readonly tasksService: TasksService) { }
 
     @Post()
-    create(
-        @Body() dto: CreateTaskDto,
-        @GetUser('id') userId: string,
-    ) {
-        return this.tasksService.create(dto, userId);
+    async create(@Body() dto: CreateTaskDto, @Request() req) {
+        console.log('Full user object:', req.user);
+        return this.tasksService.create(dto, req.user.userId);
     }
 
     @Get()
-    findAll(@GetUser('id') userId: string) {
-        return this.tasksService.findAll(userId);
+    findAll(@Request() req) {
+        return this.tasksService.findAll(req.user.userId);
     }
 
     @Patch(':id')
     update(
         @Param('id') id: string,
         @Body() dto: UpdateTaskDto,
-        @GetUser('id') userId: string,
+        @Request() req,
     ) {
-        return this.tasksService.update(id, dto, userId);
+        return this.tasksService.update(id, dto, req.user.userId);
     }
 
     @Patch(':id/status')
     updateStatus(
         @Param('id') id: string,
         @Body('status') status: TaskStatus,
-        @GetUser('id') userId: string,
+        @Request() req,
     ) {
-        return this.tasksService.updateStatus(id, status, userId);
+        return this.tasksService.updateStatus(id, status, req.user.userId);
     }
 
     @Delete(':id')
-    remove(
-        @Param('id') id: string,
-        @GetUser('id') userId: string,
-    ) {
-        return this.tasksService.remove(id, userId);
+    remove(@Param('id') id: string, @Request() req) {
+        return this.tasksService.remove(id, req.user.userId);
     }
 }

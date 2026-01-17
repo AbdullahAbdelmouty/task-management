@@ -13,6 +13,8 @@ export class TasksService {
     ) { }
 
     async create(createTaskDto: CreateTaskDto, userId: string): Promise<Task> {
+        console.log(userId, "userId");
+
         const task = this.taskRepo.create({
             ...createTaskDto,
             userId,

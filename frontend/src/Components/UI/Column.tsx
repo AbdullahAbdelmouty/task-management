@@ -11,6 +11,7 @@ interface Props {
     title: string;
     status: TaskStatus;
     tasks: Task[];
+    loading?: boolean;
     onAddTask: (task: Omit<Task, 'id'>) => void;
 }
 
