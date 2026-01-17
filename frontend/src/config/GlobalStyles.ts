@@ -16,7 +16,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background: white;
+    background: #E5E5E5;
     color: black;
     font-family: 'Cairo', sans-serif;
     transition: all 0.25s linear;

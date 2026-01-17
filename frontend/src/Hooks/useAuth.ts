@@ -1,30 +1,32 @@
+import { useEffect, useState } from 'react';
+import { loginRequest } from '../services/auth.service';
+import type { LoginPayload } from '../services/auth.service';
 
-import { useState } from "react";
+const TOKEN_KEY = 'accessToken';
+
 const useAuth = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-    const login = async () => {
-        try {
+    useEffect(() => {
+        setIsAuthenticated(!!localStorage.getItem(TOKEN_KEY));
+    }, []);
 
-        } catch (error) {
-
-        }
+    const login = async (values: LoginPayload) => {
+        const data = await loginRequest(values);
+        localStorage.setItem(TOKEN_KEY, data.accessToken);
+        setIsAuthenticated(true);
     };
 
-    const register = async () => {
-        try {
-
-        } catch (error) {
-
-        }
-    }
-
-
     const logout = () => {
+        localStorage.removeItem(TOKEN_KEY);
         setIsAuthenticated(false);
     };
 
-    return { isAuthenticated, register, login, logout };
+    return {
+        isAuthenticated,
+        login,
+        logout,
+    };
 };
 
 export default useAuth;

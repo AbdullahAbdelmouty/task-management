@@ -1,8 +1,17 @@
-import { ConfigProvider } from "antd";
-import { ThemeProvider } from "styled-components";
-import PropTypes from "prop-types";
+import { ConfigProvider } from 'antd';
+import { ThemeProvider } from 'styled-components';
+import type { ReactNode } from 'react';
+import type { AppTheme } from '../types/theme.types';
 
-const AntThemeProvider = ({ theme, children }) => {
+interface AntThemeProviderProps {
+    theme: AppTheme;
+    children: ReactNode;
+}
+
+const AntThemeProvider = ({
+    theme,
+    children,
+}: AntThemeProviderProps) => {
     return (
         <ConfigProvider
             theme={{
@@ -13,7 +22,6 @@ const AntThemeProvider = ({ theme, children }) => {
                     colorBorder: theme.colors.border,
                     colorLink: theme.colors.link,
                     boxShadow: theme.effects.shadow,
-                    colorBgBlur: theme.colors.background,
                 },
                 components: {
                     Menu: {
@@ -24,31 +32,29 @@ const AntThemeProvider = ({ theme, children }) => {
                         itemSelectedBg: theme.colors.secondary,
                         itemHoverColor: theme.colors.primaryBtnText,
                         itemHoverBg: theme.colors.secondary,
-                        itemMarginBlock: "16px",
+                        itemMarginBlock: 16,
                         groupTitleColor: theme.colors.primaryBtnText,
-                        groupTitleFontSize: "9px",
+                        groupTitleFontSize: 9,
                         subMenuItemBg: theme.colors.primary,
                         subMenuItemSelectedColor: theme.colors.primaryBtnText,
-                        subMenuItemSelectedBg: theme.colors.secondary,
                     },
                     Card: {
-                        borderRadius: "12px",
+                        borderRadius: 12,
                         boxShadow: theme.effects.shadow,
-                        headerBg: "#fff",
+                        headerBg: '#fff',
                     },
                     Modal: {
                         contentBg: theme.colors.entireBg,
                         headerBg: theme.colors.primary,
-                        headerColor: theme.colors.primaryBtnText,
                         footerBg: theme.colors.background,
                         titleColor: theme.colors.primaryBtnText,
-                        titleFontSize: "14px",
-                        titleLineHeight: "14px",
+                        titleFontSize: 14,
+                        titleLineHeight: '14px',
                         colorIcon: theme.colors.primaryBtnText,
                         colorIconHover: theme.colors.primaryBtnText,
                     },
                     Form: {
-                        labelFontSize: "12px",
+                        labelFontSize: 12,
                         labelColor: theme.colors.primarytext,
                     },
                     Input: {

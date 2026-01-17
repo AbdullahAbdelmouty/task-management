@@ -1,61 +1,63 @@
-import React from 'react';
 import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input } from 'antd';
-import axios from 'axios';
-import AppLayout from '../Components/Layout/Layout';
+import { Button, Card, Flex, Form, Input, Typography } from 'antd';
+import { useNavigate } from 'react-router';
+import useAuth from '../Hooks/useAuth';
 
 type FieldType = {
-    username?: string;
+    email?: string;
     password?: string;
 };
 
-const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-    try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, values);
-        console.log('Success:', response.data);
+const { Title, Text } = Typography;
 
-    } catch (error) {
-        console.log(error);
+const Login: React.FC = () => {
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
-    }
-};
+    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+        try {
+            await login(values);
+            navigate('/');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
-
-const Login: React.FC = () => (
-    <AppLayout>
-
-        <Form
-            name="login"
-            layout="vertical"
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-        >
-            <Form.Item<FieldType>
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
-            >
-                <Input />
-            </Form.Item>
-
-            <Form.Item<FieldType>
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-                <Input.Password />
-            </Form.Item>
-
-            <Form.Item label={null}>
-                <Button type="primary" htmlType="submit">
+    return (
+        <Card style={{ width: 400, margin: '0 auto', marginTop: '5rem' }}>
+            <Flex vertical>
+                <Title style={{
+                    textAlign: "center"
+                }}>
                     Login
-                </Button>
-            </Form.Item>
-        </Form>
-    </AppLayout>
-);
+                </Title>
+                <Form layout="vertical" onFinish={onFinish}>
+                    <Form.Item<FieldType>
+                        label="Email"
+                        name="email"
+                        rules={[{ required: true, message: 'Please input your email!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item<FieldType>
+                        label="Password"
+                        name="password"
+                        rules={[{ required: true, message: 'Please input your password!' }]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+
+                    <Button type="primary" htmlType="submit" block>
+                        Login
+                    </Button>
+                </Form>
+                <Text style={{ marginTop: '1rem' }}>
+                    Don't have an account? <a href="/register">Register</a>
+                </Text>
+            </Flex>
+        </Card>
+    );
+};
 
 export default Login;

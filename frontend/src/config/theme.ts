@@ -6,7 +6,7 @@ export const lightTheme = {
         primary: "Cairo, sans-serif",
     },
     colors: {
-        primary: "#3D2386",
+        primary: "#6358DC",
         secondary: "#E4522B",
         info: "#98A2B3",
         disabled: "#98A2B3",
