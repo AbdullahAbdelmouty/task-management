@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Flex } from 'antd';
 import { Column } from './Column';
 import type { Task } from '../../types/task';
+import AppLayout from '../Layout/Layout';
 
 const initialTasks: Task[] = [
     { id: '1', title: 'UI/UX Design', priority: 'HIGH', status: 'TODO' },
@@ -39,28 +40,30 @@ export const Board = () => {
 
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <Flex gap={24} justify="center" style={{ marginTop: '5rem' }}>
-                <Column
-                    title="To Do"
-                    status="TODO"
-                    tasks={tasks.filter((t) => t.status === 'TODO')}
-                    onAddTask={handleAddTask}
-                />
-                <Column
-                    title="In Progress"
-                    status="IN_PROGRESS"
-                    tasks={tasks.filter((t) => t.status === 'IN_PROGRESS')}
-                    onAddTask={handleAddTask}
+        <AppLayout>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Flex gap={24} justify="center" style={{ marginTop: '5rem' }}>
+                    <Column
+                        title="To Do"
+                        status="TODO"
+                        tasks={tasks.filter((t) => t.status === 'TODO')}
+                        onAddTask={handleAddTask}
+                    />
+                    <Column
+                        title="In Progress"
+                        status="IN_PROGRESS"
+                        tasks={tasks.filter((t) => t.status === 'IN_PROGRESS')}
+                        onAddTask={handleAddTask}
 
-                />
-                <Column
-                    title="Completed"
-                    status="DONE"
-                    tasks={tasks.filter((t) => t.status === 'DONE')}
-                    onAddTask={handleAddTask}
-                />
-            </Flex>
-        </DragDropContext>
+                    />
+                    <Column
+                        title="Completed"
+                        status="DONE"
+                        tasks={tasks.filter((t) => t.status === 'DONE')}
+                        onAddTask={handleAddTask}
+                    />
+                </Flex>
+            </DragDropContext>
+        </AppLayout>
     );
 };
