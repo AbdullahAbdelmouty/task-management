@@ -1,25 +1,28 @@
-import api from './axios';
+import axios from 'axios';
+import type {
+    LoginPayload,
+    RegisterPayload,
+    AuthResponse,
+} from '../types/auth.types';
+
 const API_URL = import.meta.env.VITE_API_URL;
-
-export interface LoginPayload {
-    email?: string;
-    password?: string;
-}
-
-export interface LoginResponse {
-    accessToken: string;
-}
 
 export const loginRequest = async (
     payload: LoginPayload,
-): Promise<LoginResponse> => {
-    const response = await api.post<LoginResponse>(
+): Promise<AuthResponse> => {
+    const { data } = await axios.post<AuthResponse>(
         `${API_URL}/auth/login`,
-        {
-            emailOrPhone: payload.email,
-            password: payload.password,
-        },
+        payload,
     );
+    return data;
+};
 
-    return response.data;
+export const registerRequest = async (
+    payload: RegisterPayload,
+): Promise<AuthResponse> => {
+    const { data } = await axios.post<AuthResponse>(
+        `${API_URL}/auth/register`,
+        payload,
+    );
+    return data;
 };

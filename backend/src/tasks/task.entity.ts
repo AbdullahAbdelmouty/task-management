@@ -1,9 +1,10 @@
 import {
+    Column,
     Entity,
     PrimaryGeneratedColumn,
-    Column,
     CreateDateColumn,
     UpdateDateColumn,
+    Index,
 } from 'typeorm';
 
 export enum TaskStatus {
@@ -18,6 +19,7 @@ export enum TaskPriority {
     HIGH = 'HIGH',
 }
 
+@Index('idx_tasks_user', ['userId'])
 @Entity('tasks')
 export class Task {
     @PrimaryGeneratedColumn('uuid')
@@ -43,8 +45,12 @@ export class Task {
     })
     priority: TaskPriority;
 
+    // ✅ Better than `date`
+    @Column({ type: 'timestamptz', nullable: true })
+    dueDate?: Date;
+
     @Column()
-    userId: string; // owner (from JWT)
+    userId: string;
 
     @CreateDateColumn()
     createdAt: Date;

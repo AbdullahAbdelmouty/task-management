@@ -3,9 +3,10 @@ import { ColumnWrapper, ColumnHeader } from '../Styles/Kanban.styles';
 import { TaskCard } from './TaskCard';
 import type { Task, TaskStatus } from '../../types/task';
 import { PlusCircleIcon } from '@phosphor-icons/react';
-import { Modal, Form, Input, Select, Button } from 'antd';
+import { Modal, Form, Input, Select, Button, Flex, Typography } from 'antd';
 import { useState } from 'react';
 
+const { Text } = Typography;
 interface Props {
     title: string;
     status: TaskStatus;
@@ -43,9 +44,15 @@ export const Column: React.FC<Props> = ({
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                 >
-                    <ColumnHeader>
-                        {title} ({tasks.length})
-                    </ColumnHeader>
+
+                    <Flex>
+                        <Text>
+                            {title}
+                        </Text>
+                        <Text>
+                            {tasks.length}
+                        </Text>
+                    </Flex>
 
                     <Button
                         icon={<PlusCircleIcon />}

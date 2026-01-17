@@ -12,11 +12,13 @@ export class TasksService {
         private readonly taskRepo: Repository<Task>,
     ) { }
 
-    async create(dto: CreateTaskDto, userId: string): Promise<Task> {
+    async create(createTaskDto: CreateTaskDto, userId: string): Promise<Task> {
         const task = this.taskRepo.create({
-            ...dto,
+            ...createTaskDto,
             userId,
-            status: dto.status ?? TaskStatus.TODO,
+            dueDate: createTaskDto.dueDate
+                ? new Date(createTaskDto.dueDate)
+                : undefined, // ✅ FIX
         });
 
         return this.taskRepo.save(task);
@@ -34,7 +36,10 @@ export class TasksService {
             where: { id, userId },
         });
 
-        if (!task) throw new NotFoundException('Task not found');
+        if (!task) {
+            throw new NotFoundException('Task not found');
+        }
+
         return task;
     }
 
@@ -45,7 +50,11 @@ export class TasksService {
     ): Promise<Task> {
         const task = await this.findOne(id, userId);
 
-        Object.assign(task, dto);
+        Object.assign(task, {
+            ...dto,
+            dueDate: dto.dueDate ? new Date(dto.dueDate) : task.dueDate,
+        });
+
         return this.taskRepo.save(task);
     }
 
@@ -64,3 +73,4 @@ export class TasksService {
         await this.taskRepo.remove(task);
     }
 }
+

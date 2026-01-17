@@ -1,7 +1,8 @@
 import React from 'react';
-import { Flex, Layout } from 'antd';
+import { Flex, Layout, Typography } from 'antd';
 
 const { Header, Footer, Sider, Content } = Layout;
+const { Title } = Typography;
 
 const headerStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -9,30 +10,33 @@ const headerStyle: React.CSSProperties = {
     height: 64,
     paddingInline: 48,
     lineHeight: '64px',
-    backgroundColor: '#0f1e3f',
+    backgroundColor: '#6358DC',
+    display: 'flex',
+    justifyContent: "center",
+    alignItems: "center"
 };
 
 const contentStyle: React.CSSProperties = {
     textAlign: 'center',
     minHeight: 120,
     lineHeight: '120px',
-    color: '#fff',
+    color: '#E5E5E5',
 };
 
-
-const footerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    color: '#fff',
-    backgroundColor: '#0f1e3f',
-};
 
 const AppLayout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => (
     <Layout style={{
         minHeight: "100vh"
     }}>
-        <Header style={headerStyle}>Task Managment</Header>
+        <Header style={headerStyle}>
+            <Title level={3} style={{
+                margin: 0,
+                color: "white"
+            }}>
+                Task Management App
+            </Title>
+        </Header>
         <Content style={contentStyle}>{children}</Content>
-        <Footer style={footerStyle}>Footer</Footer>
     </Layout>
 );
 

@@ -2,11 +2,8 @@ import type { FormProps } from 'antd';
 import { Button, Card, Flex, Form, Input, Typography } from 'antd';
 import { useNavigate } from 'react-router';
 import useAuth from '../Hooks/useAuth';
+import type { LoginPayload } from '../types/auth.types';
 
-type FieldType = {
-    email?: string;
-    password?: string;
-};
 
 const { Title, Text } = Typography;
 
@@ -14,9 +11,10 @@ const Login: React.FC = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+    const onFinish: FormProps<LoginPayload>['onFinish'] = async (values) => {
         try {
-            await login(values);
+            const data = await login(values);
+            console.log(data, "data");
             navigate('/');
         } catch (error) {
             console.error(error);
@@ -32,15 +30,15 @@ const Login: React.FC = () => {
                     Login
                 </Title>
                 <Form layout="vertical" onFinish={onFinish}>
-                    <Form.Item<FieldType>
-                        label="Email"
-                        name="email"
-                        rules={[{ required: true, message: 'Please input your email!' }]}
+                    <Form.Item<LoginPayload>
+                        label="Email or Phone"
+                        name="emailOrPhone"
+                        rules={[{ required: true, message: 'Please input your email or phone!' }]}
                     >
                         <Input />
                     </Form.Item>
 
-                    <Form.Item<FieldType>
+                    <Form.Item<LoginPayload>
                         label="Password"
                         name="password"
                         rules={[{ required: true, message: 'Please input your password!' }]}
