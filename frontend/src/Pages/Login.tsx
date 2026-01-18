@@ -25,7 +25,8 @@ const Login: React.FC = () => {
         <Card style={{ width: 400, margin: '0 auto', marginTop: '5rem' }}>
             <Flex vertical>
                 <Title style={{
-                    textAlign: "center"
+                    textAlign: "center",
+                    fontSize: "2rem",
                 }}>
                     Login
                 </Title>

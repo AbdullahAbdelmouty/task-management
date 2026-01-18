@@ -5,15 +5,13 @@ import AppLayout from '../Layout/Layout';
 import { useTasks } from '../../Hooks/useTasks';
 
 export const Board = () => {
-    const { tasks, loading, createTask, updateTaskStatus, setTasks } = useTasks();
+    const { tasks, loading, createTask, updateTaskStatus } = useTasks();
 
     const onDragEnd = async (result: DropResult) => {
         const { destination, draggableId } = result;
         if (!destination) return;
 
         const newStatus = destination.droppableId as typeof tasks[number]['status'];
-
-        // Optimistic UI handled inside hook
         await updateTaskStatus(draggableId, newStatus);
     };
 

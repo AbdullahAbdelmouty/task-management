@@ -5,7 +5,7 @@ export const ColumnWrapper = styled(Flex)`
   flex-direction: column;
   gap: 1rem;
   width: 320px;
-  background: #ffff;
+  background: ${({ theme }) => theme.colors.card};
   border-radius: 16px;
   padding: 16px;
 `;

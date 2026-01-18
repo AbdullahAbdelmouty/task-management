@@ -4,11 +4,13 @@ import type {
     LoginPayload,
     RegisterPayload,
 } from '../types/auth.types';
+import { useNavigate } from 'react-router';
 
 const TOKEN_KEY = 'accessToken';
 
 const useAuth = () => {
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const login = async (payload: LoginPayload) => {
         setLoading(true);
@@ -34,6 +36,7 @@ const useAuth = () => {
 
     const logout = () => {
         localStorage.removeItem(TOKEN_KEY);
+        navigate('/login');
     };
 
     const isAuthenticated = Boolean(localStorage.getItem(TOKEN_KEY));

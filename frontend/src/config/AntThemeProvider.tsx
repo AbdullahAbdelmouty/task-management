@@ -1,4 +1,4 @@
-import { ConfigProvider } from 'antd';
+import { ColorPicker, ConfigProvider } from 'antd';
 import { ThemeProvider } from 'styled-components';
 import type { ReactNode } from 'react';
 import type { AppTheme } from '../types/theme.types';
@@ -24,48 +24,53 @@ const AntThemeProvider = ({
                     boxShadow: theme.effects.shadow,
                 },
                 components: {
-                    Menu: {
-                        itemColor: theme.colors.primaryBtnText,
-                        itemActiveBg: theme.colors.secondary,
-                        itemBg: theme.colors.primary,
-                        itemSelectedColor: theme.colors.primaryBtnText,
-                        itemSelectedBg: theme.colors.secondary,
-                        itemHoverColor: theme.colors.primaryBtnText,
-                        itemHoverBg: theme.colors.secondary,
-                        itemMarginBlock: 16,
-                        groupTitleColor: theme.colors.primaryBtnText,
-                        groupTitleFontSize: 9,
-                        subMenuItemBg: theme.colors.primary,
-                        subMenuItemSelectedColor: theme.colors.primaryBtnText,
-                    },
+
                     Card: {
                         borderRadius: 12,
                         boxShadow: theme.effects.shadow,
-                        headerBg: '#fff',
+                        colorText: theme.colors.text,
+                        colorBgContainer: theme.colors.card,
+
                     },
                     Modal: {
                         contentBg: theme.colors.entireBg,
-                        headerBg: theme.colors.primary,
-                        footerBg: theme.colors.background,
-                        titleColor: theme.colors.primaryBtnText,
+                        footerBg: theme.colors.entireBg,
+                        titleColor: theme.colors.text,
                         titleFontSize: 14,
                         titleLineHeight: '14px',
-                        colorIcon: theme.colors.primaryBtnText,
-                        colorIconHover: theme.colors.primaryBtnText,
+
+                    },
+                    Button: {
+                        colorText: theme.colors.text,
+                        boxShadow: theme.effects.shadow,
+                        colorSuccessHover: theme.colors.text,
+                        colorBorderSecondary: theme.colors.border,
+
+                    },
+                    Typography: {
+                        colorText: theme.colors.text,
+                        colorTextSecondary: theme.colors.secondaryText,
                     },
                     Form: {
                         labelFontSize: 12,
-                        labelColor: theme.colors.primarytext,
+                        labelColor: theme.colors.primaryText,
                     },
                     Input: {
                         controlHeight: 32,
+                        colorText: theme.colors.primaryText,
+                        colorTextPlaceholder: theme.colors.placeHolder,
+                    },
+                    Select: {
+                        controlHeight: 32,
+                        colorText: theme.colors.placeHolder,
+                    },
+                    DatePicker: {
+                        colorTextPlaceholder: theme.colors.placeHolder,
                     },
                     Switch: {
-                        colorPrimary: theme.colors.primary,
+                        colorPrimary: theme.colors.taskCardBg,
                     },
-                    Typography: {
-                        colorText: theme.colors.primarytext,
-                    },
+
                 },
             }}
         >

@@ -45,7 +45,6 @@ export class Task {
     })
     priority: TaskPriority;
 
-    // ✅ Better than `date`
     @Column({ type: 'timestamptz', nullable: true })
     dueDate?: Date;
 

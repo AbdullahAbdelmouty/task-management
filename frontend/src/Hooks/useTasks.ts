@@ -9,7 +9,7 @@ export const useTasks = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState(false);
 
-    const fetchTasks = useCallback(async () => {
+    const fetchTasks = async () => {
         setLoading(true);
         try {
             const res = await api.get<Task[]>(`${API_URL}/tasks`);
@@ -20,13 +20,13 @@ export const useTasks = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    };
 
     useEffect(() => {
         fetchTasks();
-    }, [fetchTasks]);
+    }, [tasks]);
 
-    const createTask = useCallback(
+    const createTask =
         async (task: Omit<Task, 'id'>) => {
             try {
                 const res = await api.post<Task>(`${API_URL}/tasks`, task);
@@ -37,11 +37,9 @@ export const useTasks = () => {
                 message.error('Failed to create task');
                 throw err;
             }
-        },
-        [],
-    );
+        }
 
-    const updateTask = useCallback(
+    const updateTask =
         async (taskId: string, updates: Partial<Omit<Task, 'id'>>) => {
             try {
                 const res = await api.patch<Task>(`${API_URL}/tasks/${taskId}`, updates);
@@ -54,11 +52,9 @@ export const useTasks = () => {
                 message.error('Failed to update task');
                 throw err;
             }
-        },
-        []
-    )
+        }
 
-    const updateTaskStatus = useCallback(
+    const updateTaskStatus =
         async (taskId: string, status: Task['status']) => {
             // Optimistic UI update
             setTasks((prev) =>
@@ -73,18 +69,16 @@ export const useTasks = () => {
                 // Revert UI if failed
                 fetchTasks();
             }
-        },
-        [fetchTasks],
-    );
+        }
 
-    const removeTask = useCallback(async (taskId: string) => {
+    const removeTask = async (taskId: string) => {
         try {
             await api.delete(`${API_URL}/tasks/${taskId}`);
             setTasks((prev) => prev.filter((t) => t.id !== taskId));
         } catch (err) {
             console.error(err);
         }
-    }, [])
+    }
 
     return {
         tasks,

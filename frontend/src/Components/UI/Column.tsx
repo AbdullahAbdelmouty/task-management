@@ -12,6 +12,7 @@ import {
     Flex,
     Typography,
     DatePicker,
+    Tag,
 } from 'antd';
 import { useState } from 'react';
 import dayjs from 'dayjs';
@@ -60,14 +61,13 @@ export const Column: React.FC<Props> = ({
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                 >
-                    {/* Header */}
                     <Flex justify="space-between" align="center">
                         <Text strong>{title}</Text>
-                        <Text type="secondary">{tasks.length}</Text>
+                        <Tag color="blue" >{tasks.length}</Tag>
                     </Flex>
 
-                    {/* Add Button */}
                     <Button
+                        type="primary"
                         icon={<PlusCircleIcon />}
                         style={{ width: '100%', marginBottom: 12 }}
                         onClick={() => setOpen(true)}
@@ -75,7 +75,6 @@ export const Column: React.FC<Props> = ({
                         Add Task
                     </Button>
 
-                    {/* Tasks */}
                     {tasks.map((task, index) => (
                         <TaskCard key={task.id} task={task} index={index} />
                     ))}
@@ -108,7 +107,6 @@ export const Column: React.FC<Props> = ({
                                 <Input placeholder="Task title" />
                             </Form.Item>
 
-                            {/* Description */}
                             <Form.Item
                                 name="description"
                                 label="Description"
@@ -118,8 +116,6 @@ export const Column: React.FC<Props> = ({
                                     placeholder="Optional description"
                                 />
                             </Form.Item>
-
-                            {/* Priority */}
                             <Form.Item
                                 name="priority"
                                 label="Priority"
@@ -132,8 +128,6 @@ export const Column: React.FC<Props> = ({
                                     ]}
                                 />
                             </Form.Item>
-
-                            {/* Due Date */}
                             <Form.Item
                                 name="dueDate"
                                 label="Due Date"

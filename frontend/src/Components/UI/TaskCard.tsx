@@ -9,8 +9,7 @@ import {
     DatePicker,
     Dropdown,
     Tag,
-    Card
-
+    Card,
 } from 'antd';
 import { Draggable } from '@hello-pangea/dnd';
 import type { Task } from '../../types/task';
@@ -20,6 +19,7 @@ import {
     PencilSimple,
     Trash,
 } from '@phosphor-icons/react';
+import { TaskCardStyle } from '../Styles/Card.styles';
 import { useState } from 'react';
 import { useTasks } from '../../Hooks/useTasks';
 import dayjs from 'dayjs';
@@ -33,6 +33,8 @@ interface Props {
 
 const { Text } = Typography;
 const { TextArea } = Input;
+
+
 
 export const TaskCard: React.FC<Props> = ({
     task,
@@ -81,10 +83,9 @@ export const TaskCard: React.FC<Props> = ({
                             ...provided.draggableProps.style,
                         }}
                     >
-                        <Card
+                        <TaskCardStyle
                             size="small"
                             hoverable
-                            style={{ backgroundColor: '#f9f9f9' }}
                         >
                             <Flex justify="space-between" align="center">
                                 <Flex align="center">
@@ -112,7 +113,6 @@ export const TaskCard: React.FC<Props> = ({
                                         style={{
                                             marginLeft: 28
                                         }}
-                                        type="secondary"
                                     >
                                         {task.description}
                                     </Text>
@@ -133,16 +133,16 @@ export const TaskCard: React.FC<Props> = ({
                                 </Tag>
 
                                 {task.dueDate && (
-                                    <Text type="secondary">
+                                    <Text >
                                         Due:{' '}
                                         {new Date(task.dueDate).toLocaleDateString()}
                                     </Text>
                                 )}
                             </Flex>
-                        </Card>
+                        </TaskCardStyle>
                     </div>
                 )}
-            </Draggable>
+            </Draggable >
 
             <Modal
                 title="Delete Task"
@@ -179,7 +179,7 @@ export const TaskCard: React.FC<Props> = ({
 
                 }
                 onCancel={() => setOpen(false)}
-                okText="Create"
+                okText="Edit"
                 destroyOnClose
             >
                 <Form
@@ -189,7 +189,6 @@ export const TaskCard: React.FC<Props> = ({
                         priority: 'MEDIUM',
                     }}
                 >
-                    {/* Title */}
                     <Form.Item
                         name="title"
                         label="Title"
@@ -200,7 +199,6 @@ export const TaskCard: React.FC<Props> = ({
                         <Input placeholder="Task title" />
                     </Form.Item>
 
-                    {/* Description */}
                     <Form.Item
                         name="description"
                         label="Description"
@@ -211,7 +209,6 @@ export const TaskCard: React.FC<Props> = ({
                         />
                     </Form.Item>
 
-                    {/* Priority */}
                     <Form.Item
                         name="priority"
                         label="Priority"
@@ -225,7 +222,6 @@ export const TaskCard: React.FC<Props> = ({
                         />
                     </Form.Item>
 
-                    {/* Due Date */}
                     <Form.Item
                         name="dueDate"
                         label="Due Date"
