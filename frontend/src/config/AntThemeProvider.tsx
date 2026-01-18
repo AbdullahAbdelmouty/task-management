@@ -66,6 +66,7 @@ const AntThemeProvider = ({
                     },
                     DatePicker: {
                         colorTextPlaceholder: theme.colors.placeHolder,
+
                     },
                     Switch: {
                         colorPrimary: theme.colors.taskCardBg,

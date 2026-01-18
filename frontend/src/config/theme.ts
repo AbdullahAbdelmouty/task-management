@@ -21,7 +21,7 @@ export const lightTheme: AppTheme = {
         primaryText: '#000000',
         secondaryText: '#595959',
         primaryBtnText: '#ffffff',
-        placeHolder: "#595959",
+        placeHolder: "#d5d5d5",
 
         border: '#e5e7eb',
         link: '#1677ff',
